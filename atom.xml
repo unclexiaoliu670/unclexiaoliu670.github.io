@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unclexiaoliu670.github.io/</id>
-    <title>Gridea</title>
-    <updated>2020-02-08T08:01:21.183Z</updated>
+    <title>陆启林的个人博客</title>
+    <updated>2020-02-08T08:09:18.746Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unclexiaoliu670.github.io/"/>
     <link rel="self" href="https://unclexiaoliu670.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>书山有路勤为径，学海无涯苦作舟</subtitle>
     <logo>https://unclexiaoliu670.github.io/images/avatar.png</logo>
     <icon>https://unclexiaoliu670.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2020, 陆启林的个人博客</rights>
     <entry>
         <title type="html"><![CDATA[Markdown]]></title>
         <id>https://unclexiaoliu670.github.io/post/markdown</id>
