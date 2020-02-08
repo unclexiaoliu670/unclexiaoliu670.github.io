@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>http://localhost:4000</id>
+    <id>https://unclexiaoliu670.github.io/</id>
     <title>Gridea</title>
-    <updated>2020-02-08T06:24:49.782Z</updated>
+    <updated>2020-02-08T07:19:22.947Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="http://localhost:4000"/>
-    <link rel="self" href="http://localhost:4000/atom.xml"/>
+    <link rel="alternate" href="https://unclexiaoliu670.github.io/"/>
+    <link rel="self" href="https://unclexiaoliu670.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>http://localhost:4000/images/avatar.png</logo>
-    <icon>http://localhost:4000/favicon.ico</icon>
+    <logo>https://unclexiaoliu670.github.io/images/avatar.png</logo>
+    <icon>https://unclexiaoliu670.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>http://localhost:4000/post/hello-gridea</id>
-        <link href="http://localhost:4000/post/hello-gridea">
+        <id>https://unclexiaoliu670.github.io/post/hello-gridea</id>
+        <link href="https://unclexiaoliu670.github.io/post/hello-gridea">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
@@ -40,6 +40,25 @@
 <p>未来，它一定会成为你离不开的伙伴</p>
 <p>尽情发挥你的才华吧！</p>
 <p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea的博客起点]]></title>
+        <id>https://unclexiaoliu670.github.io/post/gridea起点</id>
+        <link href="https://unclexiaoliu670.github.io/post/gridea起点">
+        </link>
+        <updated>2018-10-01T07:00:54.000Z</updated>
+        <content type="html"><![CDATA[<p>关于Gridea的概述：<br>
+一个静态博客写作客户端，就我个人而言更像是一个在线的笔记本，记录一些你想写下的东西。</p>
+<p>Gridea windows的安装：<br>
+1.下载安装git：https://gridea.dev/    ,安装比较简单，一路next不用犹豫，直到finish。<br>
+2.下载Gridea的最新版本：https://gridea.dev/   不断下一步就行<br>
+帮助文档地址：https://gridea.dev/docs/#%E5%8F%91%E5%B8%83<br>
+安装的视频地址：https://www.bilibili.com/video/av69627579/<br>
+3.遇到的问题：<br>
+1&gt;我遇到的问题是无论怎样都无法在远程的地方连接成功？<br>
+解决方案：直接使用git clone下自己的项目，然后把git的隐藏目录复制到Gridea的output目录下，<br>
+具体路径是C:\Users\用户\Documents\Gridea\output，然后不要在尝试远程连接测试，直接用同步命令就可以上传成功。（如果点击了远程测试按钮后会再次生成git文件，导致错误，需再次复制）</p>
 ]]></content>
     </entry>
 </feed>
