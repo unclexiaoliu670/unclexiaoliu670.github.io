@@ -1,22 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://unclexiaoliu670.github.io/</id>
-    <title>刺客670的个人博客</title>
-    <updated>2020-02-08T09:06:58.402Z</updated>
-    <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://unclexiaoliu670.github.io/"/>
-    <link rel="self" href="https://unclexiaoliu670.github.io/atom.xml"/>
-    <subtitle>书山有路勤为径，学海无涯苦作舟</subtitle>
-    <logo>https://unclexiaoliu670.github.io/images/avatar.png</logo>
-    <icon>https://unclexiaoliu670.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, 刺客670的个人博客</rights>
-    <entry>
-        <title type="html"><![CDATA[Socket NIO 学习笔记（一）]]></title>
-        <id>https://unclexiaoliu670.github.io/post/socket-nio学习笔记一</id>
-        <link href="https://unclexiaoliu670.github.io/post/socket-nio学习笔记一">
-        </link>
-        <updated>2018-10-02T08:37:59.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="java-io读写原理">Java IO读写原理</h2>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Socket NIO 学习笔记（一） | 刺客670的个人博客</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://unclexiaoliu670.github.io//favicon.ico?v=1581152812970">
+<link rel="stylesheet" href="https://unclexiaoliu670.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Java IO读写原理
+无论是Socket的读写还是文件的读写，在Java层面的应用开发或者是linux系统底层开发，都属于输入input和输出output的处理，简称为IO读写。在原理上和处理流程上，都是一致的。区别在于参数的不同。
+用户..." />
+    <meta name="keywords" content="java,netty" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://unclexiaoliu670.github.io/">
+        <img src="https://unclexiaoliu670.github.io//images/avatar.png?v=1581152812970" class="site-logo">
+        <h1 class="site-title">刺客670的个人博客</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      书山有路勤为径，学海无涯苦作舟
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://unclexiaoliu670.github.io" target="_blank">Uncle xiaoliu670</a> | <a class="rss" href="https://unclexiaoliu670.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Socket NIO 学习笔记（一）</h2>
+            <div class="post-date">2018-10-02</div>
+            
+              <div class="feature-container" style="background-image: url('https://unclexiaoliu670.github.io//post-images/socket-nio学习笔记一.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="java-io读写原理">Java IO读写原理</h2>
 <p>无论是Socket的读写还是文件的读写，在Java层面的应用开发或者是linux系统底层开发，都属于输入input和输出output的处理，简称为IO读写。在原理上和处理流程上，都是一致的。区别在于参数的不同。</p>
 <p>用户程序进行IO的读写，基本上会用到read&amp;write两大系统调用。可能不同操作系统，名称不完全一样，但是功能是一样的。</p>
 <p>先强调一个基础知识：read系统调用，并不是把数据直接从物理设备，读数据到内存。write系统调用，也不是直接把数据，写入到物理设备。</p>
@@ -121,48 +204,58 @@ kernel的数据准备是将数据从网络物理设备（网卡）读取到内�
 需要完成事件的注册与传递，这里边需要底层操作系统提供大量的支持，去做大量的工作。<br>
 目前来说， Windows 系统下通过 IOCP 实现了真正的异步 I/O。但是，就目前的业界形式来说，Windows 系统，很少作为百万级以上或者说高并发应用的服务器操作系统来使用。</p>
 <p>而在 Linux 系统下，异步IO模型在2.6版本才引入，目前并不完善。所以，这也是在 Linux 下，实现高并发网络编程时都是以 IO 复用模型模式为主。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Gridea的博客起点]]></title>
-        <id>https://unclexiaoliu670.github.io/post/gridea起点</id>
-        <link href="https://unclexiaoliu670.github.io/post/gridea起点">
-        </link>
-        <updated>2018-10-01T07:00:54.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<h2 id="关于gridea的概述">关于Gridea的概述：</h2>
-<p>一个静态博客写作客户端，就我个人而言更像是一个在线的笔记本，记录一些你想写下的东西。</p>
-<h2 id="gridea-windows的安装">Gridea windows的安装：</h2>
-<h3 id="1git下载安装">1.git下载安装</h3>
-<p>地址：https://gridea.dev/    ,安装比较简单，一路next不用犹豫，直到finish。</p>
-<h3 id="2gridea下载安装">2.Gridea下载安装</h3>
-<p>下载地址：https://gridea.dev/   不断下一步就行<br>
-帮助文档地址：https://gridea.dev/docs/#%E5%8F%91%E5%B8%83<br>
-安装的视频地址：https://www.bilibili.com/video/av69627579/</p>
-<h3 id="3遇到的问题">3.遇到的问题：</h3>
-<p>1&gt;我遇到的问题是无论怎样都无法在远程的地方连接成功？<br>
-解决方案：直接使用git clone下自己的项目，然后把git的隐藏目录复制到Gridea的output目录下，<br>
-具体路径是C:\Users\用户\Documents\Gridea\output，然后不要在尝试远程连接测试，直接用同步命令就可以上传成功。（如果点击了远程测试按钮后会再次生成git文件，导致错误，需再次复制）</p>
-<h2 id="文章的编写">文章的编写：</h2>
-<h3 id="1新建文章">1.新建文章</h3>
-<figure data-type="image" tabindex="1"><img src="https://unclexiaoliu670.github.io//post-images/1581148355301.png" alt="" loading="lazy"></figure>
-<h3 id="2markdown">2.Markdown</h3>
-<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。<br>
-Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。<br>
-Markdown 编写的文档后缀为 .md, .markdown。</p>
-<p>Markdown 应用<br>
-Markdown 能被使用来撰写电子书，如：Gitbook。<br>
-当前许多网站都广泛使用 Markdown 来撰写帮助文档或是用于论坛上发表消息。例如：GitHub、简书、reddit、Diaspora、Stack Exchange、OpenStreetMap 、SourceForge等。</p>
-<p>编辑器<br>
-Typora 支持 MacOS 、Windows、Linux 平台，且包含多种主题，编辑后直接渲染出效果。<br>
-支持导出HTML、PDF、Word、图片等多种类型文件。<br>
-Typora 官网：https://typora.io/<br>
-你也可以使用我们的在线编辑器来测试：https://c.runoob.com/front-end/712。</p>
-]]></content>
-    </entry>
-</feed>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://unclexiaoliu670.github.io/tag/java" class="tag">
+                    java
+                  </a>
+                
+                  <a href="https://unclexiaoliu670.github.io/tag/netty" class="tag">
+                    netty
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://unclexiaoliu670.github.io/post/gridea起点">
+                  <h3 class="post-title">
+                    Gridea的博客起点
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
