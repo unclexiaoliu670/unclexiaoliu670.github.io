@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unclexiaoliu670.github.io/</id>
     <title>Gridea</title>
-    <updated>2020-02-08T07:53:27.953Z</updated>
+    <updated>2020-02-08T08:01:21.183Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unclexiaoliu670.github.io/"/>
     <link rel="self" href="https://unclexiaoliu670.github.io/atom.xml"/>
@@ -137,18 +137,31 @@ console.log(foo(5));
         <content type="html"><![CDATA[<h2 id="关于gridea的概述">关于Gridea的概述：</h2>
 <p>一个静态博客写作客户端，就我个人而言更像是一个在线的笔记本，记录一些你想写下的东西。</p>
 <h2 id="gridea-windows的安装">Gridea windows的安装：</h2>
-<p>###1.git下载安装<br>
-地址：https://gridea.dev/    ,安装比较简单，一路next不用犹豫，直到finish。<br>
-###2.Gridea下载安装<br>
-下载地址：https://gridea.dev/   不断下一步就行<br>
+<h3 id="1git下载安装">1.git下载安装</h3>
+<p>地址：https://gridea.dev/    ,安装比较简单，一路next不用犹豫，直到finish。</p>
+<h3 id="2gridea下载安装">2.Gridea下载安装</h3>
+<p>下载地址：https://gridea.dev/   不断下一步就行<br>
 帮助文档地址：https://gridea.dev/docs/#%E5%8F%91%E5%B8%83<br>
-安装的视频地址：https://www.bilibili.com/video/av69627579/<br>
-###3.遇到的问题：<br>
-1&gt;我遇到的问题是无论怎样都无法在远程的地方连接成功？<br>
+安装的视频地址：https://www.bilibili.com/video/av69627579/</p>
+<h3 id="3遇到的问题">3.遇到的问题：</h3>
+<p>1&gt;我遇到的问题是无论怎样都无法在远程的地方连接成功？<br>
 解决方案：直接使用git clone下自己的项目，然后把git的隐藏目录复制到Gridea的output目录下，<br>
 具体路径是C:\Users\用户\Documents\Gridea\output，然后不要在尝试远程连接测试，直接用同步命令就可以上传成功。（如果点击了远程测试按钮后会再次生成git文件，导致错误，需再次复制）</p>
 <h2 id="文章的编写">文章的编写：</h2>
+<h3 id="1新建文章">1.新建文章</h3>
 <figure data-type="image" tabindex="1"><img src="https://unclexiaoliu670.github.io//post-images/1581148355301.png" alt="" loading="lazy"></figure>
+<h3 id="2markdown">2.Markdown</h3>
+<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。<br>
+Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。<br>
+Markdown 编写的文档后缀为 .md, .markdown。</p>
+<p>Markdown 应用<br>
+Markdown 能被使用来撰写电子书，如：Gitbook。<br>
+当前许多网站都广泛使用 Markdown 来撰写帮助文档或是用于论坛上发表消息。例如：GitHub、简书、reddit、Diaspora、Stack Exchange、OpenStreetMap 、SourceForge等。</p>
+<p>编辑器<br>
+Typora 支持 MacOS 、Windows、Linux 平台，且包含多种主题，编辑后直接渲染出效果。<br>
+支持导出HTML、PDF、Word、图片等多种类型文件。<br>
+Typora 官网：https://typora.io/<br>
+你也可以使用我们的在线编辑器来测试：https://c.runoob.com/front-end/712。</p>
 ]]></content>
     </entry>
 </feed>
