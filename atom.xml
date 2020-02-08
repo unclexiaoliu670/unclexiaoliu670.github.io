@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unclexiaoliu670.github.io/</id>
     <title>Gridea</title>
-    <updated>2020-02-08T07:19:22.947Z</updated>
+    <updated>2020-02-08T07:53:27.953Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unclexiaoliu670.github.io/"/>
     <link rel="self" href="https://unclexiaoliu670.github.io/atom.xml"/>
@@ -10,6 +10,92 @@
     <logo>https://unclexiaoliu670.github.io/images/avatar.png</logo>
     <icon>https://unclexiaoliu670.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Markdown]]></title>
+        <id>https://unclexiaoliu670.github.io/post/markdown</id>
+        <link href="https://unclexiaoliu670.github.io/post/markdown">
+        </link>
+        <updated>2020-02-08T07:40:01.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="h1-标题">h1 标题</h1>
+<h2 id="h2-标题">h2 标题</h2>
+<h3 id="h3-标题">h3 标题</h3>
+<h4 id="h4-标题">h4 标题</h4>
+<h5 id="h5-标题">h5 标题</h5>
+<h6 id="h6-标题">h6 标题</h6>
+<h2 id="水平线">水平线</h2>
+<hr>
+<hr>
+<hr>
+<h2 id="文本样式">文本样式</h2>
+<p><strong>This is bold text</strong></p>
+<p><strong>This is bold text</strong></p>
+<p><em>This is italic text</em></p>
+<p><em>This is italic text</em></p>
+<p><s>Strikethrough</s></p>
+<h2 id="列表">列表</h2>
+<p>无序</p>
+<ul>
+<li>Create a list by starting a line with <code>+</code>, <code>-</code>, or <code>*</code></li>
+<li>Sub-lists are made by indenting 2 spaces:
+<ul>
+<li>Marker character change forces new list start:
+<ul>
+<li>Ac tristique libero volutpat at</li>
+</ul>
+<ul>
+<li>Facilisis in pretium nisl aliquet</li>
+</ul>
+<ul>
+<li>Nulla volutpat aliquam velit</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Very easy!</li>
+</ul>
+<p>有序</p>
+<ol>
+<li>
+<p>Lorem ipsum dolor sit amet</p>
+</li>
+<li>
+<p>Consectetur adipiscing elit</p>
+</li>
+<li>
+<p>Integer molestie lorem at massa</p>
+</li>
+<li>
+<p>You can use sequential numbers...</p>
+</li>
+<li>
+<p>...or keep all the numbers as <code>1.</code></p>
+</li>
+</ol>
+<p>Start numbering with offset:</p>
+<ol start="57">
+<li>foo</li>
+<li>bar</li>
+</ol>
+<h2 id="代码">代码</h2>
+<p>Inline <code>code</code></p>
+<p>Indented code</p>
+<pre><code>// Some comments
+line 1 of code
+line 2 of code
+line 3 of code
+</code></pre>
+<p>Block code &quot;fences&quot;</p>
+<pre><code>Sample text here...
+</code></pre>
+<p>Syntax highlighting</p>
+<pre><code class="language-js">var foo = function (bar) {
+  return bar++;
+};
+
+console.log(foo(5));
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://unclexiaoliu670.github.io/post/hello-gridea</id>
@@ -48,17 +134,21 @@
         <link href="https://unclexiaoliu670.github.io/post/gridea起点">
         </link>
         <updated>2018-10-01T07:00:54.000Z</updated>
-        <content type="html"><![CDATA[<p>关于Gridea的概述：<br>
-一个静态博客写作客户端，就我个人而言更像是一个在线的笔记本，记录一些你想写下的东西。</p>
-<p>Gridea windows的安装：<br>
-1.下载安装git：https://gridea.dev/    ,安装比较简单，一路next不用犹豫，直到finish。<br>
-2.下载Gridea的最新版本：https://gridea.dev/   不断下一步就行<br>
+        <content type="html"><![CDATA[<h2 id="关于gridea的概述">关于Gridea的概述：</h2>
+<p>一个静态博客写作客户端，就我个人而言更像是一个在线的笔记本，记录一些你想写下的东西。</p>
+<h2 id="gridea-windows的安装">Gridea windows的安装：</h2>
+<p>###1.git下载安装<br>
+地址：https://gridea.dev/    ,安装比较简单，一路next不用犹豫，直到finish。<br>
+###2.Gridea下载安装<br>
+下载地址：https://gridea.dev/   不断下一步就行<br>
 帮助文档地址：https://gridea.dev/docs/#%E5%8F%91%E5%B8%83<br>
 安装的视频地址：https://www.bilibili.com/video/av69627579/<br>
-3.遇到的问题：<br>
+###3.遇到的问题：<br>
 1&gt;我遇到的问题是无论怎样都无法在远程的地方连接成功？<br>
 解决方案：直接使用git clone下自己的项目，然后把git的隐藏目录复制到Gridea的output目录下，<br>
 具体路径是C:\Users\用户\Documents\Gridea\output，然后不要在尝试远程连接测试，直接用同步命令就可以上传成功。（如果点击了远程测试按钮后会再次生成git文件，导致错误，需再次复制）</p>
+<h2 id="文章的编写">文章的编写：</h2>
+<figure data-type="image" tabindex="1"><img src="https://unclexiaoliu670.github.io//post-images/1581148355301.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
