@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unclexiaoliu670.github.io/</id>
     <title>刺客670的个人博客</title>
-    <updated>2020-02-08T09:06:58.402Z</updated>
+    <updated>2020-02-08T10:55:13.161Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unclexiaoliu670.github.io/"/>
     <link rel="self" href="https://unclexiaoliu670.github.io/atom.xml"/>
@@ -11,7 +11,248 @@
     <icon>https://unclexiaoliu670.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 刺客670的个人博客</rights>
     <entry>
-        <title type="html"><![CDATA[Socket NIO 学习笔记（一）]]></title>
+        <title type="html"><![CDATA[Socket NIO（三）Socket运用中NIO和BIO的区别]]></title>
+        <id>https://unclexiaoliu670.github.io/post/socket-nio3</id>
+        <link href="https://unclexiaoliu670.github.io/post/socket-nio3">
+        </link>
+        <updated>2020-02-08T09:59:00.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="socket运用">Socket运用</h3>
+<h3 id="传统的bio的方式">传统的BIO的方式</h3>
+<pre><code class="language-java">import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+ 
+public class Server {
+    public static final int port = 8080;//监听的端口号     
+ 
+    public static void main(String[] args) {    
+        System.out.println(&quot;Server...\n&quot;);    
+        Server server = new Server();    
+        server.init();    
+    }    
+ 
+    public void init() {    
+        try {    
+            //创建一个ServerSocket，这里可以指定连接请求的队列长度  
+            //new ServerSocket(port,3);意味着当队列中有3个连接请求是，如果Client再请求连接，就会被Server拒绝 
+            ServerSocket serverSocket = new ServerSocket(port);    
+            while (true) {    
+                //从请求队列中取出一个连接
+                Socket client = serverSocket.accept();    
+                // 处理这次连接    
+                new HandlerThread(client);    
+            }    
+        } catch (Exception e) {    
+            System.out.println(&quot;服务器异常: &quot; + e.getMessage());    
+        }    
+    }    
+ 
+    private class HandlerThread implements Runnable {    
+        private Socket socket;    
+        public HandlerThread(Socket client) {    
+            socket = client;    
+            new Thread(this).start();    
+        }    
+ 
+        public void run() {    
+            try {    
+                // 读取客户端数据    
+                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));    
+                String clientInputStr = input.readLine();//这里要注意和客户端输出流的写方法对应,否则会抛 EOFException  
+                // 处理客户端数据    
+                System.out.println(&quot;客户端发过来的内容:&quot; + clientInputStr);    
+ 
+                // 向客户端回复信息    
+                PrintStream out = new PrintStream(socket.getOutputStream());    
+                System.out.print(&quot;请输入:\t&quot;);    
+                // 发送键盘输入的一行    
+                String s = new BufferedReader(new InputStreamReader(System.in)).readLine();    
+                out.println(s);    
+ 
+                out.close();    
+                input.close();    
+            } catch (Exception e) {    
+                System.out.println(&quot;服务器 run 异常: &quot; + e.getMessage());    
+            } finally {    
+                if (socket != null) {    
+                    try {    
+                        socket.close();    
+                    } catch (Exception e) {    
+                        socket = null;    
+                        System.out.println(&quot;服务端 finally 异常:&quot; + e.getMessage());    
+                    }    
+                }    
+            }   
+        }    
+    }
+}
+</code></pre>
+<p>从如上的代码可以看出传统的阻塞io是在accept到连接后，启动了单独的线程去处理事件。但是由于inputsteam在调用read方法时会阻塞线程，这样如果客户端没有数据的发送那么这个线程就会一直阻塞。当面对大量的数据访问时，每一个连接就会有一个线程，并且可能很多的线程一直处于等待的阻塞状态，这样就会对服务器造成资源的浪费。</p>
+<h3 id="传统的nio的方式">传统的NIO的方式</h3>
+<pre><code class="language-java">    package learn8.nio;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+import java.util.Set;
+
+public class ServerTest {
+
+    public static void main(String[] args) throws IOException {
+        int[] ports = new int[5];
+
+        ports[0] = 5000;
+        ports[1] = 5001;
+        ports[2] = 5002;
+        ports[3] = 5003;
+        ports[4] = 5004;
+
+        Selector selector = Selector.open();
+
+        for (int i=0;i&lt;ports.length;++i){
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.configureBlocking(false);
+            ServerSocket serverSocket = serverSocketChannel.socket();
+            InetSocketAddress address = new InetSocketAddress(ports[i]);
+            serverSocket.bind(address);
+
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+            System.out.println(&quot;监听端口&quot;+ports[i]);
+
+        }
+
+        while (true){
+            int numbers = selector.select();
+            System.out.println(&quot;numbers:&quot;+numbers);
+
+            Set&lt;SelectionKey&gt; selectionKeys = selector.selectedKeys();
+            System.out.println(&quot;selectedKeys:&quot;+selectionKeys);
+
+            Iterator&lt;SelectionKey&gt; iter = selectionKeys.iterator();
+
+            while (iter.hasNext()){
+                SelectionKey selectionKey = iter.next();
+
+                if(selectionKey.isAcceptable()){
+                    ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
+                    SocketChannel socketChannel = serverSocketChannel.accept();
+                    socketChannel.configureBlocking(false);
+                    socketChannel.register(selector,SelectionKey.OP_READ);
+                    iter.remove();
+                    System.out.println(&quot;获得客户端链接：&quot;+socketChannel);
+                }else if (selectionKey.isReadable()){
+                    SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+                    int bytesRead = 0;
+                    while (true){
+                        ByteBuffer byteBuffer = ByteBuffer.allocate(512);
+                        byteBuffer.clear();
+                        int read = socketChannel.read(byteBuffer);
+
+                        if(read&lt;=0){
+                            break;
+                        }
+
+                        byteBuffer.flip();
+
+                        socketChannel.write(byteBuffer);
+                        bytesRead += read;
+                    }
+                    System.out.println(&quot;读取：&quot;+bytesRead+&quot;，来自于：&quot;+socketChannel);
+
+                    iter.remove();
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<p>NIO的方式：先 register的通道到Selector选择器上，然后调用selector.select() 阻塞方法。当有符合条件的情况发生时，selector.select()就会继续执行下去，通过selector获取到那些channel，执行后续逻辑，一般后续逻辑会启动线程完成。</p>
+<h3 id="传统的io和nio的对比">传统的IO和NIO的对比</h3>
+<p>传统IO：有一个客户端连接时，开启一个线程，这个线程会一直阻塞等待客户端发送消息。<br>
+NIO：启动了一个线程，专门负责客户端的连接工作，这样无论有多少的客户端进行连接都只用这个线程就可以了，当客户端真正发送数据的时候，服务器端开启一个线程去处理。这样就不会存在阻塞的线程等待了，大大的节省了资源的浪费。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Socket NIO（二）BIO和NIO在文件读取时的不同 ]]></title>
+        <id>https://unclexiaoliu670.github.io/post/socket-nioer-bio-de-shi-xian-mo-xing</id>
+        <link href="https://unclexiaoliu670.github.io/post/socket-nioer-bio-de-shi-xian-mo-xing">
+        </link>
+        <updated>2019-10-03T09:14:49.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="文件读取">文件读取</h2>
+<h3 id="bio的文件">BIO的文件</h3>
+<pre><code class="language-java">public static void method2(){
+        InputStream in = null;
+        try{
+            in = new BufferedInputStream(new FileInputStream(&quot;src/nomal_io.txt&quot;));
+            byte [] buf = new byte[1024];
+            int bytesRead = in.read(buf);
+            while(bytesRead != -1)
+            {
+                for(int i=0;i&lt;bytesRead;i++)
+                    System.out.print((char)buf[i]);
+                bytesRead = in.read(buf);
+            }
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }finally{
+            try{
+                if(in != null){
+                    in.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+</code></pre>
+<h3 id="nio的文件">NIO的文件</h3>
+<pre><code class="language-java">public static void method1(){
+        RandomAccessFile aFile = null;
+        try{
+            aFile = new RandomAccessFile(&quot;src/nio.txt&quot;,&quot;rw&quot;);
+            FileChannel fileChannel = aFile.getChannel();
+            ByteBuffer buf = ByteBuffer.allocate(1024);
+            int bytesRead = fileChannel.read(buf);
+            System.out.println(bytesRead);
+            while(bytesRead != -1)
+            {
+                buf.flip();
+                while(buf.hasRemaining())
+                {
+                    System.out.print((char)buf.get());
+                }
+                buf.compact();
+                bytesRead = fileChannel.read(buf);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(aFile != null){
+                    aFile.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+</code></pre>
+<h3 id="nio和bio的对比总结">NIO和BIO的对比总结</h3>
+<p>NIO使用了RandomAccessFile、ByteBuffer、FileChannel对象，这些都是nio包中的对象。但是却没有使用nio的核心对象Selector，所以以上的例子只能说使用的部分nio的功能，却无法体现出nio。<br>
+不过对于文件的读取来说，实现了速度更快、可随机位置读取、可重复读取等功能。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Socket NIO （一）初步了解IO]]></title>
         <id>https://unclexiaoliu670.github.io/post/socket-nio学习笔记一</id>
         <link href="https://unclexiaoliu670.github.io/post/socket-nio学习笔记一">
         </link>

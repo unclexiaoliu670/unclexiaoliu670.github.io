@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Socket NIO（二）BIO和NIO在文件读取时的不同  | 刺客670的个人博客</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://unclexiaoliu670.github.io//favicon.ico?v=1581159291145">
+<link rel="stylesheet" href="https://unclexiaoliu670.github.io//styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="文件读取
+BIO的文件
+public static void method2(){
+        InputStream in = null;
+        try{
+            in = new BufferedInput..." />
+    <meta name="keywords" content="java,netty" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://unclexiaoliu670.github.io/">
+        <img src="https://unclexiaoliu670.github.io//images/avatar.png?v=1581159291145" class="site-logo">
+        <h1 class="site-title">刺客670的个人博客</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      书山有路勤为径，学海无涯苦作舟
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://unclexiaoliu670.github.io" target="_blank">Uncle xiaoliu670</a> | <a class="rss" href="https://unclexiaoliu670.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Socket NIO（二）BIO和NIO在文件读取时的不同 </h2>
+            <div class="post-date">2019-10-03</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="文件读取">文件读取</h2>
+<h3 id="bio的文件">BIO的文件</h3>
+<pre><code class="language-java">public static void method2(){
+        InputStream in = null;
+        try{
+            in = new BufferedInputStream(new FileInputStream(&quot;src/nomal_io.txt&quot;));
+            byte [] buf = new byte[1024];
+            int bytesRead = in.read(buf);
+            while(bytesRead != -1)
+            {
+                for(int i=0;i&lt;bytesRead;i++)
+                    System.out.print((char)buf[i]);
+                bytesRead = in.read(buf);
+            }
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }finally{
+            try{
+                if(in != null){
+                    in.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+</code></pre>
+<h3 id="nio的文件">NIO的文件</h3>
+<pre><code class="language-java">public static void method1(){
+        RandomAccessFile aFile = null;
+        try{
+            aFile = new RandomAccessFile(&quot;src/nio.txt&quot;,&quot;rw&quot;);
+            FileChannel fileChannel = aFile.getChannel();
+            ByteBuffer buf = ByteBuffer.allocate(1024);
+            int bytesRead = fileChannel.read(buf);
+            System.out.println(bytesRead);
+            while(bytesRead != -1)
+            {
+                buf.flip();
+                while(buf.hasRemaining())
+                {
+                    System.out.print((char)buf.get());
+                }
+                buf.compact();
+                bytesRead = fileChannel.read(buf);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(aFile != null){
+                    aFile.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+</code></pre>
+<h3 id="nio和bio的对比总结">NIO和BIO的对比总结</h3>
+<p>NIO使用了RandomAccessFile、ByteBuffer、FileChannel对象，这些都是nio包中的对象。但是却没有使用nio的核心对象Selector，所以以上的例子只能说使用的部分nio的功能，却无法体现出nio。<br>
+不过对于文件的读取来说，实现了速度更快、可随机位置读取、可重复读取等功能。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://unclexiaoliu670.github.io/tag/java" class="tag">
+                    java
+                  </a>
+                
+                  <a href="https://unclexiaoliu670.github.io/tag/netty" class="tag">
+                    netty
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://unclexiaoliu670.github.io/post/socket-nio学习笔记一">
+                  <h3 class="post-title">
+                    Socket NIO （一）初步了解IO
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
