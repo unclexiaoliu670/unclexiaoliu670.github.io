@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://unclexiaoliu670.github.io/</id>
     <title>刺客670的个人博客</title>
-    <updated>2020-02-09T07:18:12.509Z</updated>
+    <updated>2020-02-09T16:10:34.639Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://unclexiaoliu670.github.io/"/>
     <link rel="self" href="https://unclexiaoliu670.github.io/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://unclexiaoliu670.github.io/images/avatar.png</logo>
     <icon>https://unclexiaoliu670.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 刺客670的个人博客</rights>
+    <entry>
+        <title type="html"><![CDATA[IntelliJ IDEA 试用Gradle乱码问题]]></title>
+        <id>https://unclexiaoliu670.github.io/post/intellij-idea-shi-yong-gradle-luan-ma-wen-ti</id>
+        <link href="https://unclexiaoliu670.github.io/post/intellij-idea-shi-yong-gradle-luan-ma-wen-ti">
+        </link>
+        <updated>2020-02-09T16:00:36.000Z</updated>
+        <content type="html"><![CDATA[<p>Gradle支持中文 -- 关于 &quot;编码 GBK 的不可映射字符&quot;错误的解决</p>
+<p>1.修改项目中的build.gradle文件，compile代码报GBK映射错误时，增加如下代码</p>
+<pre><code class="language-java">tasks.withType(JavaCompile) {
+    options.encoding = &quot;UTF-8&quot;
+}
+</code></pre>
+<p>2.代码执行时乱码时解决办法<br>
+help--&gt;Edit Custom VM Options ,增加如下配置</p>
+<pre><code class="language-java">-Dfile.encoding=UTF-8
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Socket NIO（三）Socket运用中NIO和BIO的区别]]></title>
         <id>https://unclexiaoliu670.github.io/post/socket-nio3</id>
