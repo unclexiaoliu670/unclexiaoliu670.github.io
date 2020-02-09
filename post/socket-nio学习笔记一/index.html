@@ -1,20 +1,13 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Socket NIO （一）初步了解IO | 刺客670的个人博客</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://unclexiaoliu670.github.io//favicon.ico?v=1581232440195">
+<link rel="shortcut icon" href="https://unclexiaoliu670.github.io//favicon.ico?v=1581232686837">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unclexiaoliu670.github.io//styles/main.css">
-
-
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="alternate" type="application/atom+xml" title="Socket NIO （一）初步了解IO | 刺客670的个人博客 - Atom Feed" href="https://unclexiaoliu670.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
@@ -22,84 +15,92 @@
 无论是Socket的读写还是文件的读写，在Java层面的应用开发或者是linux系统底层开发，都属于输入input和输出output的处理，简称为IO读写。在原理上和处理流程上，都是一致的。区别在于参数的不同。
 用户..." />
     <meta name="keywords" content="java,netty" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://unclexiaoliu670.github.io/">
-        <img src="https://unclexiaoliu670.github.io//images/avatar.png?v=1581232440195" class="site-logo">
-        <h1 class="site-title">刺客670的个人博客</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://unclexiaoliu670.github.io/">
+  <img class="avatar" src="https://unclexiaoliu670.github.io//images/avatar.png?v=1581232686837" alt="">
+  </a>
+  <h1 class="site-title">
+    刺客670的个人博客
+  </h1>
+  <p class="site-description">
+    书山有路勤为径，学海无涯苦作舟
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
+        <a href="/" class="menu">
+          首页
+        </a>
       
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
+    
       
-        
+    
       
-        
+    
       
-        
+    
       
-        
-      
-    </div>
-    <div class="site-description">
-      书山有路勤为径，学海无涯苦作舟
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://unclexiaoliu670.github.io" target="_blank">Uncle xiaoliu670</a> | <a class="rss" href="https://unclexiaoliu670.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">Socket NIO （一）初步了解IO</h2>
-            <div class="post-date">2018-10-02</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Socket NIO （一）初步了解IO
+            </h2>
+            <div class="post-info">
+              <span>
+                2018-10-02
+              </span>
+              <span>
+                15 min read
+              </span>
+              
+                <a href="https://unclexiaoliu670.github.io/tag/java" class="post-tag">
+                  # java
+                </a>
+              
+                <a href="https://unclexiaoliu670.github.io/tag/netty" class="post-tag">
+                  # netty
+                </a>
+              
+            </div>
             
-              <div class="feature-container" style="background-image: url('https://unclexiaoliu670.github.io//post-images/socket-nio学习笔记一.png')">
-              </div>
+              <img class="post-feature-image" src="https://unclexiaoliu670.github.io//post-images/socket-nio学习笔记一.png" alt="">
             
-            <div class="post-content" v-pre>
-              <h2 id="java-io读写原理">Java IO读写原理</h2>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="java-io读写原理">Java IO读写原理</h2>
 <p>无论是Socket的读写还是文件的读写，在Java层面的应用开发或者是linux系统底层开发，都属于输入input和输出output的处理，简称为IO读写。在原理上和处理流程上，都是一致的。区别在于参数的不同。</p>
 <p>用户程序进行IO的读写，基本上会用到read&amp;write两大系统调用。可能不同操作系统，名称不完全一样，但是功能是一样的。</p>
 <p>先强调一个基础知识：read系统调用，并不是把数据直接从物理设备，读数据到内存。write系统调用，也不是直接把数据，写入到物理设备。</p>
@@ -205,57 +206,93 @@ kernel的数据准备是将数据从网络物理设备（网卡）读取到内�
 目前来说， Windows 系统下通过 IOCP 实现了真正的异步 I/O。但是，就目前的业界形式来说，Windows 系统，很少作为百万级以上或者说高并发应用的服务器操作系统来使用。</p>
 <p>而在 Linux 系统下，异步IO模型在2.6版本才引入，目前并不完善。所以，这也是在 Linux 下，实现高并发网络编程时都是以 IO 复用模型模式为主。</p>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#java-io%E8%AF%BB%E5%86%99%E5%8E%9F%E7%90%86">Java IO读写原理</a></li>
+<li><a href="#%E5%86%85%E6%A0%B8%E7%BC%93%E5%86%B2%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%86%B2%E5%8C%BA">内核缓冲与进程缓冲区</a></li>
+<li><a href="#java-io%E8%AF%BB%E5%86%99%E7%9A%84%E5%BA%95%E5%B1%82%E6%B5%81%E7%A8%8B">java IO读写的底层流程</a></li>
+<li><a href="#%E5%9B%9B%E7%A7%8D%E4%B8%BB%E8%A6%81%E7%9A%84io%E6%A8%A1%E5%9E%8B">四种主要的IO模型</a>
+<ul>
+<li><a href="#%E5%90%8C%E6%AD%A5%E9%98%BB%E5%A1%9Eioblocking-io">同步阻塞IO（Blocking IO）</a></li>
+<li><a href="#%E5%90%8C%E6%AD%A5%E9%9D%9E%E9%98%BB%E5%A1%9Enionone-blocking-io">同步非阻塞NIO（None Blocking IO）</a></li>
+<li><a href="#io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9E%8Bio-multiplexing">IO多路复用模型(I/O multiplexing）</a></li>
+<li><a href="#%E5%BC%82%E6%AD%A5io%E6%A8%A1%E5%9E%8Basynchronous-io">异步IO模型（asynchronous IO）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://unclexiaoliu670.github.io/tag/java" class="tag">
-                    java
-                  </a>
-                
-                  <a href="https://unclexiaoliu670.github.io/tag/netty" class="tag">
-                    netty
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://unclexiaoliu670.github.io/post/gridea起点">
-                  <h3 class="post-title">
-                    Gridea的博客起点
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-
-          </div>
-
+          </article>
         </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://unclexiaoliu670.github.io/post/gridea起点">
+              <h3 class="post-title">
+                Gridea的博客起点
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://unclexiaoliu670.github.io" target="_blank">Uncle xiaoliu670</a>
+  <a class="rss" href="https://unclexiaoliu670.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
       </div>
     </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script type="application/javascript">
+    <script>
+      hljs.initHighlightingOnLoad()
 
-AOS.init();
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
 
-</script>
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
 
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
 
-
-
-
-
+    </script>
   </body>
 </html>
