@@ -1,0 +1,302 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MySQL安装 | 刺客670的个人博客</title>
+<link rel="shortcut icon" href="https://unclexiaoliu670.github.io//favicon.ico?v=1581596490359">
+<link href="https://cdn.remixicon.com/releases/v2.1.0/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unclexiaoliu670.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="MySQL安装 | 刺客670的个人博客 - Atom Feed" href="https://unclexiaoliu670.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="ubuntu 18 安装mysql过程
+来源地址：
+https://blog.csdn.net/weixx3/article/details/80782479
+https://www.cnblogs.com/cpl9412290130/p/..." />
+    <meta name="keywords" content="mysql" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://unclexiaoliu670.github.io/">
+  <img class="avatar" src="https://unclexiaoliu670.github.io//images/avatar.png?v=1581596490359" alt="">
+  </a>
+  <h1 class="site-title">
+    刺客670的个人博客
+  </h1>
+  <p class="site-description">
+    书山有路勤为径，学海无涯苦作舟
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              MySQL安装
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-01-03
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://unclexiaoliu670.github.io/tag/42S-InllA" class="post-tag">
+                  # mysql
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>ubuntu 18 安装mysql过程<br>
+来源地址：<br>
+https://blog.csdn.net/weixx3/article/details/80782479<br>
+https://www.cnblogs.com/cpl9412290130/p/9583868.html<br>
+https://www.linuxidc.com/Linux/2019-08/159899.htm</p>
+<h3 id="1安装mysql">1.安装MySQL</h3>
+<p>我本机自动被安装的mysql版本是5.7.29</p>
+<pre><code class="language-java">sudo apt-get update
+sudo apt-get install mysql-server
+</code></pre>
+<h3 id="2配置mysql">2.配置MySQL</h3>
+<h4 id="1配置安全项">1.配置安全项</h4>
+<pre><code class="language-java">sudo mysql_secure_installation
+</code></pre>
+<pre><code class="language-java">#1
+VALIDATE PASSWORD PLUGIN can be used to test passwords...
+Press y|Y for Yes, any other key for No: N (我的选项)
+
+#2
+Please set the password for root here...
+New password: (输入密码)
+Re-enter new password: (重复输入)
+
+#3
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them...
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : N (我的选项)
+
+#4
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network...
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : Y (我的选项)
+
+#5
+By default, MySQL comes with a database named 'test' that
+anyone can access...
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : N (我的选项)
+
+#6
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : Y (我的选项)
+</code></pre>
+<h4 id="22-检查mysql服务状态">2.2 检查mysql服务状态</h4>
+<pre><code class="language-java">systemctl status mysql.service
+
+</code></pre>
+<h4 id="31-首先用根用户进入">3.1 首先用根用户进入</h4>
+<pre><code class="language-java">sudo mysql -uroot -p
+
+</code></pre>
+<pre><code class="language-java">GRANT ALL PRIVILEGES ON *.* TO root@localhost IDENTIFIED BY &quot;123456&quot;;
+
+</code></pre>
+<h4 id="32-新建数据库和用户">3.2 新建数据库和用户</h4>
+<pre><code class="language-java">##1 创建数据库db1
+CREATE DATABASE db1;
+##2 创建用户wxx(密码654321) 并允许luqilin用户可以从任意机器上登入mysql的db1数据库
+GRANT ALL PRIVILEGES ON db1.* TO luqilin@&quot;%&quot; IDENTIFIED BY &quot;123456&quot;;
+</code></pre>
+<h3 id="4-问题解决">4 问题解决</h3>
+<h4 id="41-mysql出现error169828000access-denied-for-user-rootlocalhost错误解决方法">4.1 mysql出现ERROR1698(28000):Access denied for user root@localhost错误解决方法</h4>
+<p>1.进入到这个配置文件，然后在这个配置文件中的[mysqld]这一块中加入skip-grant-tables这句话,加入后登陆数据库无需密码。</p>
+<pre><code class="language-java">sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+service mysql restart
+</code></pre>
+<pre><code class="language-java">[mysqld]
+#
+# * Basic Settings
+#
+user            　 = mysql
+pid-file        　 = /var/run/mysqld/mysqld.pid
+socket        　　 = /var/run/mysqld/mysqld.sock
+port            　 = 3306
+basedir        　　= /usr
+datadir       　　 = /var/lib/mysql
+tmpdir       　　　= /tmp
+lc-messages-dir   = /usr/share/mysql
+skip-external-locking
+character-set-server=utf8
+collation-server=utf8_general_ci
+skip-grant-tables　　　　&lt;-- add here
+</code></pre>
+<p>2.设置root密码<br>
+先进去mysql</p>
+<pre><code class="language-java">    sudo mysql -uroot -p
+</code></pre>
+<p>在mysql命令中修改密码</p>
+<pre><code class="language-java">use mysql;   然后敲回车
+update user set authentication_string=password(&quot;你的密码&quot;) where user=&quot;root&quot;;  然后敲回车
+flush privileges;  然后敲回车
+select user, plugin from user; 
+</code></pre>
+<p>如果root为auth_socket执行update操作：</p>
+<pre><code class="language-java">update user set authentication_string=password(&quot;ln122920&quot;)，plugin='mysql_native_password' where user='root';
+quit;
+</code></pre>
+<h3 id="在-ubuntu-上安装-mysql-workbench">在 Ubuntu 上安装 MySQL Workbench</h3>
+<pre><code class="language-java">sudo apt update
+sudo apt install mysql-workbench
+</code></pre>
+<p>启动</p>
+<pre><code class="language-java">mysql-workbench
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1%E5%AE%89%E8%A3%85mysql">1.安装MySQL</a></li>
+<li><a href="#2%E9%85%8D%E7%BD%AEmysql">2.配置MySQL</a>
+<ul>
+<li><a href="#1%E9%85%8D%E7%BD%AE%E5%AE%89%E5%85%A8%E9%A1%B9">1.配置安全项</a></li>
+<li><a href="#22-%E6%A3%80%E6%9F%A5mysql%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81">2.2 检查mysql服务状态</a></li>
+<li><a href="#31-%E9%A6%96%E5%85%88%E7%94%A8%E6%A0%B9%E7%94%A8%E6%88%B7%E8%BF%9B%E5%85%A5">3.1 首先用根用户进入</a></li>
+<li><a href="#32-%E6%96%B0%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E7%94%A8%E6%88%B7">3.2 新建数据库和用户</a></li>
+</ul>
+</li>
+<li><a href="#4-%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3">4 问题解决</a>
+<ul>
+<li><a href="#41-mysql%E5%87%BA%E7%8E%B0error169828000access-denied-for-user-rootlocalhost%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">4.1 mysql出现ERROR1698(28000):Access denied for user root@localhost错误解决方法</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9C%A8-ubuntu-%E4%B8%8A%E5%AE%89%E8%A3%85-mysql-workbench">在 Ubuntu 上安装 MySQL Workbench</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://unclexiaoliu670.github.io/post/socket-nio学习笔记一">
+              <h3 class="post-title">
+                Socket NIO （一）初步了解IO
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://unclexiaoliu670.github.io" target="_blank">Uncle xiaoliu670</a>
+  <a class="rss" href="https://unclexiaoliu670.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
